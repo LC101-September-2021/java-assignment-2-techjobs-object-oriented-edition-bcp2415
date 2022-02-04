@@ -46,6 +46,46 @@ public class Job {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        String fail = "Data not available";
+        String nameOut;
+        String employerOut;
+        String locationOut;
+        String positionTypeOut;
+        String coreCompetencyOut;
+
+        if (Objects.isNull(getName()) && Objects.isNull(getEmployer()) && Objects.isNull(getLocation()) && Objects.isNull(getPositionType()) && Objects.isNull(getCoreCompetency())) {
+            return "\nOOPS! This job does not seem to exist.\n";
+        } else if (getName().isEmpty()) {
+            nameOut = fail;
+        } else nameOut = getName();
+
+        if (getEmployer().getValue() == "" || employer == null) {
+            employerOut = fail;
+        } else employerOut = getEmployer().getValue();
+
+        if (getLocation().getValue() == "" || location == null) {
+            locationOut = fail;
+        } else locationOut = getLocation().getValue();
+
+        if (getPositionType().getValue() == "" || positionType == null) {
+            positionTypeOut = fail;
+        } else positionTypeOut = getPositionType().getValue();
+
+        if (getCoreCompetency().getValue() == ""  || coreCompetency == null) {
+            coreCompetencyOut = fail;
+        } else coreCompetencyOut = getCoreCompetency().getValue();
+
+        return "\n" +
+                "ID: " + getId() + "\n" +
+                "Name: " + nameOut + "\n" +
+                "Employer: " + employerOut + "\n" +
+                "Location: " + locationOut + "\n" +
+                "Position Type: " + positionTypeOut + "\n" +
+                "Core Competency: " + coreCompetencyOut +
+                "\n";
+    }
 
     // TODO: Add getters for each field EXCEPT nextId. Add setters for each field EXCEPT nextID
     //  and id.
