@@ -15,11 +15,13 @@ import static org.junit.Assert.*;
  */
 @RunWith(JUnit4.class)
 public class JobTest {
+    Job job6;
 
     @Before
     public void createJobObjects() {
         Job job1 = new Job();
         Job job2 = new Job();
+        job6 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
     }
 
     @Test
@@ -55,51 +57,46 @@ public class JobTest {
     public void testJobsForEquality() {
         Job job4 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
         Job job5 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
-        assertFalse(job4.getId() == job5.getId());
-    }
-
-    Job job6;
-
-    @Before
-    public void createJob() {
-       job6 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
+        //assertFalse(job4.getId() == job5.getId());
+        assertFalse(job4.equals(job5));
     }
 
     @Test
     public void testToStringStartsAndEndsWithNewLine () {
-        Job job77 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
-        String test = "\nId: 4\nName: Product Tester\nEmployer: ACME\nLocation: Desert\nPosition Type: Quality Control\nCore Competency: Persistence\n";
+        Job job99 = new Job("A", new Employer("B"), new Location("C"), new PositionType("D"), new CoreCompetency("E"));
+        String testOut = "\nName: A\nEmployer: B\nLocation: C\nPosition Type: D\nCore Competency: E\n";
+        assertEquals(job99.toString().endsWith("\nName: A\nEmployer: B\nLocation: C\nPosition Type: D\nCore Competency: E\n"), testOut.endsWith("\nName: A\nEmployer: B\nLocation: C\nPosition Type: D\nCore Competency: E\n"));
+        Job job77 = new Job("Product Tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
+        String test = "\nID: 4\nName: Product Tester\nEmployer: ACME\nLocation: Desert\nPosition Type: Quality Control\nCore Competency: Persistence\n";
         assertTrue(job77.toString().startsWith("\n"));
         assertTrue(job77.toString().endsWith("\n"));
-        assertEquals(job77.toString().length(), test.length());
-        System.out.println("toString length = " + job77.toString().length());
-        assertEquals("\n", "\n");
+        String testNewLine = "\n";
+        assertEquals(job77.toString().charAt(0), testNewLine.charAt(0));
+        assertEquals(job77.toString().charAt(job77.toString().length() - 1), testNewLine.charAt(0));
     }
 
     @Test
     public void testToStringContainsCorrectLabelsAndData() {
-        String test = job6.toString();
-        System.out.println("Testing job6: " + test);
-        System.out.println(job6.toString().contains("ID:"));
-        assertTrue(job6.toString().contains("ID:"));
-        assertTrue(job6.toString().contains("Name:"));
-        assertTrue(job6.toString().contains("Employer:"));
-        assertTrue(job6.toString().contains("Location:"));
-        assertTrue(job6.toString().contains("Position Type:"));
-        assertTrue(job6.toString().contains("Core Competency:"));
-        assertTrue(job6.toString().contains(Integer.toString(job6.getId())));
-        assertTrue(job6.toString().contains(job6.getName()));
-        assertTrue(job6.toString().contains(job6.getEmployer().getValue()));
-        assertTrue(job6.toString().contains(job6.getLocation().getValue()));
-        assertTrue(job6.toString().contains(job6.getPositionType().getValue()));
-        assertTrue(job6.toString().contains(job6.getCoreCompetency().getValue()));
-        assertTrue(job6.toString().contains("\nID: " + Integer.toString(job6.getId()) + "\n"));
-        assertTrue(job6.toString().contains("\nName: " + job6.getName() + "\n"));
-        assertTrue(job6.toString().contains("\nEmployer: " + job6.getEmployer().getValue() + "\n"));
-        assertTrue(job6.toString().contains("\nLocation: " + job6.getLocation().getValue() + "\n"));
-        assertTrue(job6.toString().contains("\nPosition Type: " + job6.getPositionType().getValue() + "\n"));
-        assertTrue(job6.toString().contains("\nCore Competency: " + job6.getCoreCompetency().getValue() + "\n"));
-        assertEquals(job6.toString(), "\nID: " + job6.getId() + "\nName: " + job6.getName() + "\nEmployer: " + job6.getEmployer().getValue() + "\nLocation: " + job6.getLocation().getValue() + "\nPosition Type: " + job6.getPositionType().getValue() + "\nCore Competency: " + job6.getCoreCompetency().getValue() + "\n");
+        Job job = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality Control"), new CoreCompetency("Persistence"));
+        assertEquals(job.toString(), "\nID: " + job.getId() + "\nName: " + job.getName() + "\nEmployer: " + job.getEmployer().getValue() + "\nLocation: " + job.getLocation().getValue() + "\nPosition Type: " + job.getPositionType().getValue() + "\nCore Competency: " + job.getCoreCompetency().getValue() + "\n");
+        assertTrue(job.toString().contains("ID:"));
+        assertTrue(job.toString().contains("Name:"));
+        assertTrue(job.toString().contains("Employer:"));
+        assertTrue(job.toString().contains("Location:"));
+        assertTrue(job.toString().contains("Position Type:"));
+        assertTrue(job.toString().contains("Core Competency:"));
+        assertTrue(job.toString().contains(Integer.toString(job.getId())));
+        assertTrue(job.toString().contains(job.getName()));
+        assertTrue(job.toString().contains(job.getEmployer().getValue()));
+        assertTrue(job.toString().contains(job.getLocation().getValue()));
+        assertTrue(job.toString().contains(job.getPositionType().getValue()));
+        assertTrue(job.toString().contains(job.getCoreCompetency().getValue()));
+        assertTrue(job.toString().contains("\nID: " + Integer.toString(job.getId()) + "\n"));
+        assertTrue(job.toString().contains("\nName: " + job.getName() + "\n"));
+        assertTrue(job.toString().contains("\nEmployer: " + job.getEmployer().getValue() + "\n"));
+        assertTrue(job.toString().contains("\nLocation: " + job.getLocation().getValue() + "\n"));
+        assertTrue(job.toString().contains("\nPosition Type: " + job.getPositionType().getValue() + "\n"));
+        assertTrue(job.toString().contains("\nCore Competency: " + job.getCoreCompetency().getValue() + "\n"));
     }
 
     @Test
@@ -112,7 +109,7 @@ public class JobTest {
 
         job7.setName("");
         assertTrue(job7.toString().contains("Name: Data not available"));
-        assertEquals(job7.toString(), "\nID: 4\nName: Data not available\nEmployer: ACME\nLocation: Desert\nPosition Type: Quality Control\nCore Competency: Persistence\n");
+        assertEquals(job7.toString(), "\nID: 18\nName: Data not available\nEmployer: ACME\nLocation: Desert\nPosition Type: Quality Control\nCore Competency: Persistence\n");
         job7.setName("Product tester");
 
         job7.setEmployer(new Employer(""));
